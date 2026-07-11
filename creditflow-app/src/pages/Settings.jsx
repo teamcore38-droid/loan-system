@@ -7,21 +7,32 @@ export default function Settings() {
   const [dpdRule, setDpdRule] = useState('90');
   const [aiThreshold, setAiThreshold] = useState('80');
 
-  // CBS Loan Seeder States
-  const [accountNo, setAccountNo] = useState('');
-  const [customerId, setCustomerId] = useState('');
-  const [customerName, setCustomerName] = useState('');
-  const [nicNumber, setNicNumber] = useState('');
-  const [contactNumber, setContactNumber] = useState('');
-  const [loanType, setLoanType] = useState('Personal Loan');
-  const [currentEmi, setCurrentEmi] = useState('');
-  const [outstandingBalance, setOutstandingBalance] = useState('');
-  const [interestRate, setInterestRate] = useState('');
-  const [remainingTenure, setRemainingTenure] = useState('');
-  const [dpd, setDpd] = useState('');
-
   const [statusMsg, setStatusMsg] = useState({ text: '', type: '' });
   const [savingCfg, setSavingCfg] = useState(false);
+  const [seeding, setSeeding] = useState(false);
+
+  const SAMPLE_LOANS = [
+    { accountNo: 'LA-2024-001001', customerId: 'CUST-01001', customerName: 'K. L. Rahal Cooray', nicNumber: '198522304912V', contactNumber: '+94 77 220 1199', loanType: 'Personal Loan', currentEMI: 25000, outstandingBalance: 1200000, interestRate: 14.0, remainingTenure: 36, dpd: 45 },
+    { accountNo: 'LA-2024-001002', customerId: 'CUST-01002', customerName: 'Dilani Wickramasinghe', nicNumber: '199065403211V', contactNumber: '+94 71 889 0022', loanType: 'Housing Loan', currentEMI: 90000, outstandingBalance: 8000000, interestRate: 11.5, remainingTenure: 144, dpd: 92 },
+    { accountNo: 'LA-2024-001003', customerId: 'CUST-01003', customerName: 'Tharindu Jayasekara', nicNumber: '198211204859V', contactNumber: '+94 76 443 1122', loanType: 'Personal Loan', currentEMI: 45000, outstandingBalance: 3000000, interestRate: 15.0, remainingTenure: 48, dpd: 62 },
+    { accountNo: 'LA-2024-001004', customerId: 'CUST-01004', customerName: 'Priyantha Herath', nicNumber: '197808904561V', contactNumber: '+94 72 990 8877', loanType: 'Housing Loan', currentEMI: 120000, outstandingBalance: 11000000, interestRate: 12.0, remainingTenure: 120, dpd: 105 },
+    { accountNo: 'LA-2024-001005', customerId: 'CUST-01005', customerName: 'Nilanthi Rajapakse', nicNumber: '198455601248V', contactNumber: '+94 77 334 5566', loanType: 'Personal Loan', currentEMI: 18000, outstandingBalance: 800000, interestRate: 14.5, remainingTenure: 24, dpd: 32 },
+    { accountNo: 'LA-2024-001006', customerId: 'CUST-01006', customerName: 'Ruwan Fernando', nicNumber: '198912408933V', contactNumber: '+94 71 556 7788', loanType: 'Housing Loan', currentEMI: 65000, outstandingBalance: 5500000, interestRate: 11.0, remainingTenure: 96, dpd: 42 },
+    { accountNo: 'LA-2024-001007', customerId: 'CUST-01007', customerName: 'Anura Kumara Senanayake', nicNumber: '197022301149V', contactNumber: '+94 76 990 1122', loanType: 'Personal Loan', currentEMI: 50000, outstandingBalance: 4000000, interestRate: 15.5, remainingTenure: 60, dpd: 95 },
+    { accountNo: 'LA-2024-001008', customerId: 'CUST-01008', customerName: 'Harshani Gunawardena', nicNumber: '199277801244V', contactNumber: '+94 77 889 2233', loanType: 'Housing Loan', currentEMI: 80000, outstandingBalance: 7000000, interestRate: 11.8, remainingTenure: 180, dpd: 38 },
+    { accountNo: 'LA-2024-001009', customerId: 'CUST-01009', customerName: 'Manjula Peiris', nicNumber: '198009204481V', contactNumber: '+94 71 332 4455', loanType: 'Personal Loan', currentEMI: 30000, outstandingBalance: 1500000, interestRate: 14.2, remainingTenure: 36, dpd: 58 },
+    { accountNo: 'LA-2024-001010', customerId: 'CUST-01010', customerName: 'Shalika Gunasekara', nicNumber: '198755409988V', contactNumber: '+94 76 112 3344', loanType: 'Housing Loan', currentEMI: 110000, outstandingBalance: 9500000, interestRate: 12.2, remainingTenure: 144, dpd: 112 },
+    { accountNo: 'LA-2024-001011', customerId: 'CUST-01011', customerName: 'Buddhika Ratnayake', nicNumber: '198612903342V', contactNumber: '+94 77 667 8899', loanType: 'Personal Loan', currentEMI: 28000, outstandingBalance: 1800000, interestRate: 14.8, remainingTenure: 48, dpd: 41 },
+    { accountNo: 'LA-2024-001012', customerId: 'CUST-01012', customerName: 'Sanduni Alwis', nicNumber: '199388701239V', contactNumber: '+94 71 998 0011', loanType: 'Housing Loan', currentEMI: 75000, outstandingBalance: 6500000, interestRate: 11.2, remainingTenure: 120, dpd: 84 },
+    { accountNo: 'LA-2024-001013', customerId: 'CUST-01013', customerName: 'Kasun Jayawardena', nicNumber: '199102403259V', contactNumber: '+94 76 887 9900', loanType: 'Personal Loan', currentEMI: 35000, outstandingBalance: 2200000, interestRate: 15.0, remainingTenure: 36, dpd: 47 },
+    { accountNo: 'LA-2024-001014', customerId: 'CUST-01014', customerName: 'Duminda Silva', nicNumber: '197734901248V', contactNumber: '+94 72 334 9988', loanType: 'Housing Loan', currentEMI: 130000, outstandingBalance: 12000000, interestRate: 12.5, remainingTenure: 180, dpd: 108 },
+    { accountNo: 'LA-2024-001015', customerId: 'CUST-01015', customerName: 'Oshadi Fernando', nicNumber: '199566708891V', contactNumber: '+94 77 443 6677', loanType: 'Personal Loan', currentEMI: 15000, outstandingBalance: 600000, interestRate: 14.0, remainingTenure: 24, dpd: 35 },
+    { accountNo: 'LA-2024-001016', customerId: 'CUST-01016', customerName: 'Isuru Perera', nicNumber: '198829402219V', contactNumber: '+94 71 667 9988', loanType: 'Housing Loan', currentEMI: 95000, outstandingBalance: 8500000, interestRate: 11.9, remainingTenure: 144, dpd: 76 },
+    { accountNo: 'LA-2024-001017', customerId: 'CUST-01017', customerName: 'Chathurika Jayasinghe', nicNumber: '198356701149V', contactNumber: '+94 76 554 8877', loanType: 'Personal Loan', currentEMI: 40000, outstandingBalance: 2500000, interestRate: 15.2, remainingTenure: 48, dpd: 52 },
+    { accountNo: 'LA-2024-001018', customerId: 'CUST-01018', customerName: 'Nalin de Silva', nicNumber: '197412304899V', contactNumber: '+94 77 112 0099', loanType: 'Housing Loan', currentEMI: 140000, outstandingBalance: 13000000, interestRate: 12.8, remainingTenure: 168, dpd: 115 },
+    { accountNo: 'LA-2024-001019', customerId: 'CUST-01019', customerName: 'Hansani Wijewardene', nicNumber: '199467803321V', contactNumber: '+94 71 889 4433', loanType: 'Personal Loan', currentEMI: 22000, outstandingBalance: 1100000, interestRate: 14.5, remainingTenure: 36, dpd: 43 },
+    { accountNo: 'LA-2024-001020', customerId: 'CUST-01020', customerName: 'Samantha Dissanayake', nicNumber: '197902409981V', contactNumber: '+94 76 998 1133', loanType: 'Housing Loan', currentEMI: 105000, outstandingBalance: 9000000, interestRate: 12.1, remainingTenure: 120, dpd: 98 }
+  ];
 
   // Load persisted system parameters on mount.
   useEffect(() => {
@@ -47,46 +58,26 @@ export default function Settings() {
     }
   };
 
-  const handleSeedLoan = async (e) => {
-    e.preventDefault();
-    setStatusMsg({ text: '', type: '' });
-
-    if (!accountNo || !customerId || !customerName || !nicNumber || !contactNumber || !loanType || !currentEmi || !outstandingBalance || !interestRate || !remainingTenure || !dpd) {
-      setStatusMsg({ text: 'Please fill in all loan details.', type: 'error' });
-      return;
-    }
-
-    const payload = {
-      accountNo,
-      customerId,
-      customerName,
-      nicNumber,
-      contactNumber,
-      loanType,
-      currentEMI: parseFloat(currentEmi),
-      outstandingBalance: parseFloat(outstandingBalance),
-      interestRate: parseFloat(interestRate),
-      remainingTenure: parseInt(remainingTenure),
-      dpd: parseInt(dpd)
-    };
-
-    const res = await api.createLoan(payload);
-    if (res.success) {
-      setStatusMsg({ text: `Success! Loan Account ${accountNo} seeded in Core Banking.`, type: 'success' });
-      // Reset form fields
-      setAccountNo('');
-      setCustomerId('');
-      setCustomerName('');
-      setNicNumber('');
-      setContactNumber('');
-      setLoanType('Personal Loan');
-      setCurrentEmi('');
-      setOutstandingBalance('');
-      setInterestRate('');
-      setRemainingTenure('');
-      setDpd('');
-    } else {
-      setStatusMsg({ text: res.error || 'Failed to seed loan profile.', type: 'error' });
+  const handleSeedSampleData = async () => {
+    setSeeding(true);
+    setStatusMsg({ text: 'Seeding 20 sample loans into Core Banking...', type: 'info' });
+    let successCount = 0;
+    try {
+      for (const loan of SAMPLE_LOANS) {
+        const res = await api.createLoan(loan);
+        if (res && res.success) {
+          successCount++;
+        }
+      }
+      if (successCount > 0) {
+        setStatusMsg({ text: `Successfully seeded ${successCount} sample loans in Core Banking!`, type: 'success' });
+      } else {
+        setStatusMsg({ text: 'Failed to seed sample loans.', type: 'error' });
+      }
+    } catch (e) {
+      setStatusMsg({ text: 'Error seeding sample data.', type: 'error' });
+    } finally {
+      setSeeding(false);
     }
   };
 
@@ -186,15 +177,21 @@ export default function Settings() {
             <Database size={18} /> CBS Simulator: Mock Loan Seeder
           </h3>
           <p style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', marginBottom: '20px' }}>
-            Simulate importing a loan file or inserting an active bank customer record into Core Banking. Once seeded, you can retrieve it during case intake using the account number.
+            Simulate importing active bank customer records into the Core Banking System. Once seeded, you can retrieve them during case intake using their account number.
           </p>
 
-          {statusMsg.text && statusMsg.type !== 'success' && (
+          {statusMsg.text && (
             <div style={{
-              background: statusMsg.type === 'error' ? 'rgba(239, 68, 68, 0.12)' : 'rgba(16, 185, 129, 0.12)',
-              border: statusMsg.type === 'error' ? '1px solid rgba(239, 68, 68, 0.25)' : '1px solid rgba(16, 185, 129, 0.25)',
+              background: 
+                statusMsg.type === 'error' ? 'rgba(239, 68, 68, 0.12)' : 
+                statusMsg.type === 'info' ? 'rgba(59, 130, 246, 0.12)' : 'rgba(16, 185, 129, 0.12)',
+              border: 
+                statusMsg.type === 'error' ? '1px solid rgba(239, 68, 68, 0.25)' : 
+                statusMsg.type === 'info' ? '1px solid rgba(59, 130, 246, 0.25)' : '1px solid rgba(16, 185, 129, 0.25)',
               borderRadius: '6px',
-              color: statusMsg.type === 'error' ? '#f87171' : '#34d399',
+              color: 
+                statusMsg.type === 'error' ? '#f87171' : 
+                statusMsg.type === 'info' ? '#60a5fa' : '#34d399',
               padding: '10px 14px',
               fontSize: '0.82rem',
               fontWeight: 500,
@@ -208,139 +205,33 @@ export default function Settings() {
             </div>
           )}
 
-          <form onSubmit={handleSeedLoan} style={{ display: 'flex', flexDirection: 'column', gap: '14px', fontSize: '0.82rem' }}>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-                <label style={{ color: 'var(--text-secondary)' }}>Loan Account No.</label>
-                <input 
-                  type="text" 
-                  value={accountNo} 
-                  onChange={(e) => setAccountNo(e.target.value)} 
-                  placeholder="e.g. LA-2024-001234"
-                  className="glass-input" 
-                />
-              </div>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-                <label style={{ color: 'var(--text-secondary)' }}>Customer ID</label>
-                <input 
-                  type="text" 
-                  value={customerId} 
-                  onChange={(e) => setCustomerId(e.target.value)} 
-                  placeholder="e.g. CUST-00999"
-                  className="glass-input" 
-                />
+          <div style={{ 
+            display: 'flex', 
+            flexDirection: 'column', 
+            gap: '20px', 
+            alignItems: 'center', 
+            justifyContent: 'center', 
+            minHeight: '200px', 
+            border: '1px dashed rgba(255,255,255,0.08)', 
+            borderRadius: '8px', 
+            padding: '30px' 
+          }}>
+            <Database size={48} style={{ color: 'var(--color-primary)', opacity: 0.8 }} />
+            <div style={{ textAlign: 'center' }}>
+              <div style={{ fontWeight: 600, fontSize: '0.9rem', marginBottom: '4px' }}>Automated Dataset Loader</div>
+              <div style={{ color: 'var(--text-secondary)', fontSize: '0.72rem', maxWidth: '280px', lineHeight: 1.3 }}>
+                Click below to insert a pre-configured profile set containing 20 Sri Lankan active bank customer loans into the Core Banking System.
               </div>
             </div>
-
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-                <label style={{ color: 'var(--text-secondary)' }}>Customer Name</label>
-                <input 
-                  type="text" 
-                  value={customerName} 
-                  onChange={(e) => setCustomerName(e.target.value)} 
-                  placeholder="e.g. John Silva"
-                  className="glass-input" 
-                />
-              </div>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-                <label style={{ color: 'var(--text-secondary)' }}>NIC Number</label>
-                <input 
-                  type="text" 
-                  value={nicNumber} 
-                  onChange={(e) => setNicNumber(e.target.value)} 
-                  placeholder="e.g. 198001245678V"
-                  className="glass-input" 
-                />
-              </div>
-            </div>
-
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-                <label style={{ color: 'var(--text-secondary)' }}>Contact Number</label>
-                <input 
-                  type="text" 
-                  value={contactNumber} 
-                  onChange={(e) => setContactNumber(e.target.value)} 
-                  placeholder="e.g. +94 77 123 4567"
-                  className="glass-input" 
-                />
-              </div>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-                <label style={{ color: 'var(--text-secondary)' }}>Loan Type</label>
-                <select 
-                  value={loanType} 
-                  onChange={(e) => setLoanType(e.target.value)} 
-                  className="glass-input"
-                  style={{ cursor: 'pointer' }}
-                >
-                  <option value="Personal Loan">Personal Loan</option>
-                  <option value="Housing Loan">Housing Loan</option>
-                </select>
-              </div>
-            </div>
-
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '10px' }}>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-                <label style={{ color: 'var(--text-secondary)' }}>Current EMI (LKR)</label>
-                <input 
-                  type="number" 
-                  value={currentEmi} 
-                  onChange={(e) => setCurrentEmi(e.target.value)} 
-                  placeholder="72000"
-                  className="glass-input" 
-                />
-              </div>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-                <label style={{ color: 'var(--text-secondary)' }}>Outstanding (LKR)</label>
-                <input 
-                  type="number" 
-                  value={outstandingBalance} 
-                  onChange={(e) => setOutstandingBalance(e.target.value)} 
-                  placeholder="6000000"
-                  className="glass-input" 
-                />
-              </div>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-                <label style={{ color: 'var(--text-secondary)' }}>Interest Rate (%)</label>
-                <input 
-                  type="number" 
-                  step="0.1"
-                  value={interestRate} 
-                  onChange={(e) => setInterestRate(e.target.value)} 
-                  placeholder="12.0"
-                  className="glass-input" 
-                />
-              </div>
-            </div>
-
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-                <label style={{ color: 'var(--text-secondary)' }}>Tenure (Months)</label>
-                <input 
-                  type="number" 
-                  value={remainingTenure} 
-                  onChange={(e) => setRemainingTenure(e.target.value)} 
-                  placeholder="120"
-                  className="glass-input" 
-                />
-              </div>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-                <label style={{ color: 'var(--text-secondary)' }}>Days Past Due (DPD)</label>
-                <input 
-                  type="number" 
-                  value={dpd} 
-                  onChange={(e) => setDpd(e.target.value)} 
-                  placeholder="45"
-                  className="glass-input" 
-                />
-              </div>
-            </div>
-
-            <button type="submit" className="glass-button" style={{ display: 'flex', gap: '8px', alignSelf: 'flex-start', marginTop: '10px' }}>
-              <Database size={16} /> Seed CBS Loan Profile
+            <button 
+              onClick={handleSeedSampleData} 
+              disabled={seeding} 
+              className="glass-button" 
+              style={{ display: 'flex', gap: '8px', opacity: seeding ? 0.6 : 1, padding: '10px 20px', fontSize: '0.85rem' }}
+            >
+              <Database size={16} /> {seeding ? 'Seeding Data…' : 'Seed 20 Sample Loans'}
             </button>
-          </form>
+          </div>
         </div>
       </div>
 
