@@ -262,6 +262,11 @@ async function main() {
     await wait(1500);
     await screenshot('user_management_list');
 
+    // Customers Directory
+    await clickSidebarItem('Customers');
+    await wait(1500);
+    await screenshot('customer_directory_list');
+
     // Audit Logs
     await clickSidebarItem('Audit');
     await wait(1500);

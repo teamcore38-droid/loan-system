@@ -13,6 +13,7 @@ import AuditLogs from './pages/AuditLogs';
 import Reports from './pages/Reports';
 import Landing from './pages/Landing';
 import Settings from './pages/Settings';
+import Customers from './pages/Customers';
 
 import { api } from './utils/api';
 
@@ -133,6 +134,7 @@ export default function App() {
     switch (activePage) {
       case 'dashboard': return 'System Overview Dashboard';
       case 'cases': return 'Loan Restructuring Cases';
+      case 'customers': return 'Customer Directory';
       case 'restructure': return 'Restructuring Case Management';
       case 'create-case': return 'Create Restructuring Case';
       case 'approvals': return 'Credit Approval Queue';
@@ -246,6 +248,8 @@ export default function App() {
             user={currentUser}
           />
         );
+      case 'customers':
+        return <Customers cases={cases} onNavigateToCase={handleNavigateToCase} />;
       case 'reports':
         return <Reports />;
       case 'audit':

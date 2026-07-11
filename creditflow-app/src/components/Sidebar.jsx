@@ -9,7 +9,8 @@ import {
   ShieldAlert, 
   Users, 
   Settings,
-  LogOut
+  LogOut,
+  Contact
 } from 'lucide-react';
 
 export default function Sidebar({ activePage, setActivePage, user, onLogout, notifications }) {
@@ -20,6 +21,7 @@ export default function Sidebar({ activePage, setActivePage, user, onLogout, not
     const allItems = [
       { id: 'dashboard', name: 'Dashboard', icon: LayoutDashboard, roles: ['Super Admin', 'Remedial Officer', 'Credit Officer', 'Sales Officer', 'CCPU User', 'Risk & Compliance'] },
       { id: 'cases', name: 'Cases', icon: FolderLock, roles: ['Super Admin', 'Remedial Officer', 'Credit Officer', 'Sales Officer', 'CCPU User', 'Risk & Compliance'] },
+      { id: 'customers', name: 'Customers', icon: Contact, roles: ['Super Admin'] },
       { id: 'restructure', name: 'Restructure Requests', icon: GitBranch, roles: ['Super Admin', 'Remedial Officer', 'Sales Officer'] },
       { id: 'approvals', name: 'Approvals', icon: CheckSquare, roles: ['Super Admin', 'Credit Officer'] },
       { id: 'monitoring', name: 'Monitoring', icon: Activity, roles: ['Super Admin', 'Risk & Compliance', 'Remedial Officer'] },
