@@ -127,9 +127,7 @@ export default function Reports() {
           <select className="glass-input" value={filters.loanType} onChange={e => setField('loanType', e.target.value)} style={{ width: '160px', padding: '8px 12px', fontSize: '0.85rem' }}>
             <option>All Types</option>
             <option>Personal Loan</option>
-            <option>Home Loan</option>
-            <option>SME Loan</option>
-            <option>Vehicle Loan</option>
+            <option>Housing Loan</option>
           </select>
         </div>
 

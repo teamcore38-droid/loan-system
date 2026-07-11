@@ -276,9 +276,6 @@ export default function Settings() {
                 >
                   <option value="Personal Loan">Personal Loan</option>
                   <option value="Housing Loan">Housing Loan</option>
-                  <option value="Home Loan">Home Loan</option>
-                  <option value="SME Loan">SME Loan</option>
-                  <option value="Vehicle Loan">Vehicle Loan</option>
                 </select>
               </div>
             </div>

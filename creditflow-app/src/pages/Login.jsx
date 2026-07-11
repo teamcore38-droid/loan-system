@@ -23,6 +23,11 @@ export default function Login({ onLogin, onNavigateToRegister, onNavigateToLandi
     }
   };
 
+  const handleDemoLogin = (e) => {
+    e.preventDefault();
+    onLogin('', '', role, true);
+  };
+
   // Quick helper to fill credentials based on role selection
   const handleRoleChange = (selectedRole) => {
     setRole(selectedRole);
@@ -228,6 +233,30 @@ export default function Login({ onLogin, onNavigateToRegister, onNavigateToLandi
             {/* Submit */}
             <button type="submit" className="glass-button" style={{ width: '100%', height: '44px', fontSize: '0.95rem', marginTop: '10px' }}>
               LOGIN
+            </button>
+            <button
+              type="button"
+              onClick={handleDemoLogin}
+              className="glass-button demo-login-btn"
+              style={{
+                width: '100%',
+                height: '44px',
+                fontSize: '0.95rem',
+                marginTop: '10px',
+                background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.2) 0%, rgba(5, 150, 105, 0.2) 100%)',
+                border: '1px solid rgba(16, 185, 129, 0.4)',
+                color: '#34d399'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.background = 'linear-gradient(135deg, rgba(16, 185, 129, 0.4) 0%, rgba(5, 150, 105, 0.4) 100%)';
+                e.currentTarget.style.borderColor = 'rgba(16, 185, 129, 0.7)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.background = 'linear-gradient(135deg, rgba(16, 185, 129, 0.2) 0%, rgba(5, 150, 105, 0.2) 100%)';
+                e.currentTarget.style.borderColor = 'rgba(16, 185, 129, 0.4)';
+              }}
+            >
+              DEMO LOGIN
             </button>
           </form>
 

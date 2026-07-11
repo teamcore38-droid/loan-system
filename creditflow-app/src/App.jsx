@@ -28,6 +28,7 @@ export default function App() {
 
   // Override global alert system to display modern, professional toasts
   useEffect(() => {
+    window.api = api;
     window.alert = (message) => {
       let type = 'success';
       const msg = message.toLowerCase();
@@ -99,8 +100,8 @@ export default function App() {
     setTasks(mockTasks);
   };
 
-  const handleLogin = async (username, password, role) => {
-    const res = await api.login(username, password, role);
+  const handleLogin = async (username, password, role, isDemo = false) => {
+    const res = await api.login(username, password, role, isDemo);
     if (res.success) {
       setCurrentUser(res.user);
       await refreshData();

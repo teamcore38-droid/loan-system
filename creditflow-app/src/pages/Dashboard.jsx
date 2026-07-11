@@ -10,20 +10,33 @@ import {
 } from 'lucide-react';
 
 export default function Dashboard({ cases, notifications, tasks, onToggleTask, onNavigateToCase, user }) {
-  // Base numbers from Figma wireframe plus dynamic offsets
+  // Filter cases based on assignment
+  const isManagement = user.role === 'Super Admin' || user.role === 'Risk & Compliance';
+  const myCases = isManagement 
+    ? cases 
+    : cases.filter(c => {
+        const officer = c.assignedOfficer || '';
+        const nameParts = user.name.toLowerCase().split(' ');
+        const assignedLower = officer.toLowerCase();
+        if (nameParts.length > 0) {
+          const lastName = nameParts[nameParts.length - 1];
+          if (lastName.length > 2 && assignedLower.includes(lastName)) return true;
+        }
+        return assignedLower.includes(user.name.toLowerCase()) || 
+               user.name.toLowerCase().includes(assignedLower);
+      });
+
   const totalCasesBase = 1280;
   const pendingApprovalsBase = 43;
-  const restructuredBase = 618;
-  const rescheduledBase = 181;
   const monitoringBase = 387;
   const complianceBase = 7;
 
-  const totalCases = totalCasesBase + cases.length;
-  const pendingApprovals = pendingApprovalsBase + cases.filter(c => c.stage === 4).length;
-  const restructured = restructuredBase + cases.filter(c => c.classification.includes('Restructure') && c.stage === 7).length;
-  const rescheduled = rescheduledBase + cases.filter(c => c.classification.includes('Reschedule') && c.stage === 7).length;
-  const activeMonitoring = monitoringBase + cases.filter(c => c.stage === 7).length;
-  const complianceAlerts = complianceBase + cases.filter(c => c.stage === 7 && c.monitoringMissedPayments > 0).length;
+  const totalCases = isManagement ? (totalCasesBase + cases.length) : myCases.length;
+  const pendingApprovals = isManagement ? (pendingApprovalsBase + cases.filter(c => c.stage === 4).length) : myCases.filter(c => c.stage === 4).length;
+  const housingLoans = isManagement ? (720 + cases.filter(c => c.loanType === 'Housing Loan').length) : myCases.filter(c => c.loanType === 'Housing Loan').length;
+  const personalLoans = isManagement ? (560 + cases.filter(c => c.loanType === 'Personal Loan').length) : myCases.filter(c => c.loanType === 'Personal Loan').length;
+  const activeMonitoring = isManagement ? (monitoringBase + cases.filter(c => c.stage === 7).length) : myCases.filter(c => c.stage === 7).length;
+  const complianceAlerts = isManagement ? (complianceBase + cases.filter(c => c.stage === 7 && c.monitoringMissedPayments > 0).length) : myCases.filter(c => c.stage === 7 && c.monitoringMissedPayments > 0).length;
 
   const roleTasks = tasks.filter(t => t.role === user.role);
   const roleNotifications = notifications.filter(n => n.role === user.role);
@@ -54,20 +67,20 @@ export default function Dashboard({ cases, notifications, tasks, onToggleTask, o
 
           <div className="glass-panel metric-card success">
             <div style={{ display: 'flex', justifyContent: 'space-between', color: 'var(--text-secondary)' }}>
-              <span style={{ fontSize: '0.8rem', fontWeight: 600, textTransform: 'uppercase' }}>Restructured Loans</span>
+              <span style={{ fontSize: '0.8rem', fontWeight: 600, textTransform: 'uppercase' }}>Housing Loans</span>
               <TrendingUp size={16} style={{ color: 'var(--color-success)' }} />
             </div>
-            <div className="metric-val">{restructured}</div>
-            <div style={{ fontSize: '0.72rem', color: 'var(--color-success)', fontWeight: 500 }}>+8 today</div>
+            <div className="metric-val">{housingLoans}</div>
+            <div style={{ fontSize: '0.72rem', color: 'var(--color-success)', fontWeight: 500 }}>Active portfolio</div>
           </div>
 
           <div className="glass-panel metric-card primary">
             <div style={{ display: 'flex', justifyContent: 'space-between', color: 'var(--text-secondary)' }}>
-              <span style={{ fontSize: '0.8rem', fontWeight: 600, textTransform: 'uppercase' }}>Rescheduled Loans</span>
+              <span style={{ fontSize: '0.8rem', fontWeight: 600, textTransform: 'uppercase' }}>Personal Loans</span>
               <Layers size={16} style={{ color: 'var(--color-primary)' }} />
             </div>
-            <div className="metric-val">{rescheduled}</div>
-            <div style={{ fontSize: '0.72rem', color: 'var(--color-success)', fontWeight: 500 }}>+3 today</div>
+            <div className="metric-val">{personalLoans}</div>
+            <div style={{ fontSize: '0.72rem', color: 'var(--color-success)', fontWeight: 500 }}>Active portfolio</div>
           </div>
 
           <div className="glass-panel metric-card primary">
@@ -210,7 +223,7 @@ export default function Dashboard({ cases, notifications, tasks, onToggleTask, o
                 </tr>
               </thead>
               <tbody>
-                {cases.slice(0, 4).map(c => (
+                {myCases.slice(0, 4).map(c => (
                   <tr key={c.id}>
                     <td style={{ fontWeight: 600, color: '#60a5fa' }}>{c.id}</td>
                     <td>{c.customerName}</td>
